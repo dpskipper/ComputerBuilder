@@ -1,0 +1,460 @@
+'this a  simulator for building computers made by William Di Paolo for Mr Posega's programming class of 2015
+'first draft created 13/03/15
+'second draft 25/03/15
+'last draft 27/03/15
+
+'the below arrays store all the CPU's and GPU's from Nvidia, Intel and AMD to call back later when making a decision
+'*********************************************************
+'here is the array for the nvidia gpu's for the 'other' build also known as the 'workstation' build. meaning its a general use pc. but still powerfull enough for some CAD software and the like. Depends on the GPU though...
+'***********************************************************
+NvidiaCardsForOther[1] = "Nvidia Quadro K1200"
+NvidiaCardsForOther[2] = "Nvidia Quadro K420"
+NvidiaCardsForOther[3] = "Nvidia Quadro K620"
+NvidiaCardsForOther[4] = "Nvidia Quadro K4200"
+NvidiaCardsForOther[5] = "Nvidia Quadro K5200"
+NvidiaCardsForOther[6] = "Nvidia Quadro M6000"
+'*****************************************************************
+'below is the nvidia gaming cards array
+'******************************************************************
+NvidiaCardsForGaming[1] = "Nvidia GeForce GTX 750"
+NvidiaCardsForGaming[2] = "Nvidia GeForce GTX 750 Ti"
+NvidiaCardsForGaming[3] = "Nvidia GeForce GTX 750 Ti OC"
+NvidiaCardsForGaming[4] = "Nvidia GeForce GTX 760"
+NvidiaCardsForGaming[5] = "Nvidia GeForce GTX 760 Ti"
+NvidiaCardsForGaming[6] = "Nvidia GeForce GTX 780"
+NvidiaCardsForGaming[7] = "Nvidia GeForce GTX 780 Ti"
+NvidiaCardsForGaming[8] = "Nvidia GeForce GTX 960"
+NvidiaCardsForGaming[9] = "Nvidia GeForce GTX 960 Ti"
+NvidiaCardsForGaming[10] = "Nvidia GeForce GTX 970"
+NvidiaCardsForGaming[11] = "Nvidia GeForce GTX 970 Ti"
+NvidiaCardsForGaming[12] = "Nvidia GeForce GTX 980 Ti"
+NvidiaCardsForGaming[9] = "Nvidia GeForce GTX TITAN"
+NvidiaCardsForGaming[9] = "Nvidia GeForce GTX TITAN Black"
+NvidiaCardsForGaming[9] = "Nvidia GeForce GTX TITAN Z"
+NvidiaCardsForGaming[9] = "Nvidia GeForce GTX TITAN X"
+'**********************************************************************
+'below is the AMD workstation cards
+'**********************************************************************
+AMDCardsForOther[1] = "AMD Radeon R9 290X"
+AMDCardsForOther[2] = "AMD Radeon R9 280X"
+AMDCardsForOther[3] = "AMD Radeon R9 270X"
+AMDCardsForOther[4] = "AMD Radeon R7 260X"
+AMDCardsForOther[5] = "AMD Radeon R7 250X"
+AMDCardsForOther[6] = "AMD Sapphire HD 7950 Radeon"
+AMDCardsForOther[7] = "AMD Radeon HD 7750"
+AMDCardsForOther[8] = "AMD Radeon HD 7700"
+'*************************************************************************
+'below is the AMD gaming cards
+'*************************************************************************
+AMDCardsForGaming[1] = "AMD Radeon R9 295X2"
+AMDCardsForGaming[2] = "AMD Radeon HD 6990"
+AMDCardsForGaming[3] = "AMD Radeon HD 7970"
+AMDCardsForGaming[4] = "AMD Radeon R9 270X"
+AMDCardsForGaming[5] = "AMD Radeon HD 5850"
+AMDCardsForGaming[6] = "AMD Radeon R9 290"
+AMDCardsForGaming[7] = "AMD Radeon R9 290X"
+'*************************************************************************
+'below are the Intel CPU's to pick. most cpu's do the same thing so i dont have one for gaming and other
+'******************************************************************************************
+IntelCPU[1] = "Intel i5 Core 2 Duo"
+IntelCPU[2] = "Intel i5 Core 2 Quad"
+IntelCPU[3] = "Intel i3 3960X"
+IntelCPU[4] = "Intel i7 3970K Extream Edition Hyperthreaded"
+IntelCPU[5] = "Intel i7 3940X"
+'*******************************************************************************
+'below are the AMD CPU's
+'*******************************************************************************
+AMDCPU[1] = "AMD FX-8 Core"
+AMDCPU[2] = "AMD FX-4 Core"
+AMDCPU[3] = "AMD FX-8 Core Hyperthreaded"
+AMDCPU[4] = "AMD FX-16 Core"
+AMDCPU[5] = "AMD FX-8000"
+AMDCPU[6] = "AMD Athlon II"
+'*******************************************************************************
+
+
+'below i will set the text color etc. it makes the program look nicer
+
+TextWindow.ForegroundColor = "Darkgreen"
+TextWindow.Title = "Computer Part Picker - William DP"
+'here i'm going to collect some information about the user
+'here is a handy start sub if the user ever needs to restarts the whole process.
+Sub Start
+  EndSub
+TextWindow.Write("Please input your name: ")
+userName = TextWindow.Read()
+TextWindow.Write("Please input budget for your build: $")
+userBudget = TextWindow.ReadNumber()
+TextWindow.WriteLine("Please choose what purpose your computer is for: (1 for Gaming and 2 for other)")
+ComputerPurpose = TextWindow.ReadNumber()
+'here it sets the variable 'ComputerPurpose' to gaming or other. this will be refered to further down.
+If ComputerPurpose = 1 then
+ComputerPurpose = "Gaming"
+elseif ComputerPurpose = 2 then
+ComputerPurpose = "Other"
+EndIf
+
+
+TextWindow.Clear()
+'here i repeat all the info the user to check that it is correct. this is thier only chance to correct it
+TextWindow.WriteLine("Ok, " + userName+ " Your budget is $" +userBudget+ " And the purpose of your computer is for "+ComputerPurpose+". Please check that this infomation is correct.")
+TextWindow.Pause()
+
+'here starts a complicated block of subs. this is where the program decides where to send the user based on previous responces.
+'here it sends the user to the GamingBuild sub or just down to the first stage of the other build.
+  If ComputerPurpose = "Gaming" Then
+    GamingBuild()
+  Else 
+    MotherboardForOther() 
+    EndIf 
+  'user can pick from 3 of the biggest motherboard companys.
+  Sub MotherboardForOther
+    TextWindow.Clear()
+TextWindow.WriteLine("Please choose motherboard brand: Intel, Gigabyte, Asus (Case sensitive)")
+MotherboardForOtherPC = TextWindow.Read()
+'it will send the user to the same sub if either of the 3 requirements are met.
+if MotherboardForOtherPC = "Intel" Then
+  LGAForOther()
+  elseIf MotherboardForOtherPC = "Gigabyte" Then
+    LGAForOther()
+    elseIf MotherboardForOtherPC = "Asus" Then
+      LGAForOther()
+    Else
+      TextWindow.Write("Incorrect Responce ")
+      MotherboardForOther()
+    EndIf 
+EndSub
+'the user picks the LGA(Land grid array) socket of thier motherboard. this socket is the pins in the middle of the mobo and the more pins, the faster a CPU the board can take.
+Sub LGAForOther 
+  TextWindow.Clear()
+  TextWindow.WriteLine("Please input LGA Socket: (1150, 1155 and 2011)")
+  LGAForOtherPC = TextWindow.ReadNumber()
+  'same process as the motherboard module here.
+  If LGAForOtherPC = "1150" Then
+    RamForOther()
+    elseIf LGAForOtherPC = "1155" Then
+    RamForOther()
+    elseIf LGAForOtherPC = "2011" Then 
+        RamForOther()
+         Else
+           TextWindow.Write("Incorrect Responce ")
+           LGAForOther()
+      EndIf
+  EndSub
+
+sub RamForOther
+  TextWindow.Clear()
+  TextWindow.Write("Please state how much RAM to install. (Max 64GB) ")
+  RamForOtherPC = TextWindow.ReadNumber()
+'this will reject the users responce if it enters more than 64GB of RAM, as that is psyisically impossible. 
+ If RamForOtherPC > 64 Then
+    TextWindow.Write("Maximum amount of RAM exceeded ")
+    RamForOther()
+  Else
+    CPUCompanyForOther()
+  EndIf
+EndSub
+
+Sub CPUCompanyForOther
+  TextWindow.Clear()
+  'same process as the LGA and motherboard modules. this bit allows the user to pick from using intel or AMD CPU's
+  TextWindow.WriteLine("Please select a CPU company: Intel, AMD (Case sensitive)")
+  CPUCompanyForOtherPC = TextWindow.Read()
+  'if the user picks Intel, it sends them to the intel sub. Same for AMD.
+  if CPUCompanyForOtherPC = "Intel" Then 
+    PickIntelCPUForOther()
+  ElseIf CPUCompanyForOtherPC = "AMD" then 
+    PickAMDCPUForOther()
+  Else 
+    TextWindow.Write("Incorrect Responce ")
+    CPUCompanyForOther()
+    EndIf
+  EndSub
+  
+  'intel CPU picking module
+  Sub PickIntelCPUForOther
+    TextWindow.Clear()
+    TextWindow.WriteLine("Please choose from the following processers: (Enter the corresponding number)")
+    'here it calls the intel cpu array that was made at the very top.
+    TextWindow.WriteLine(IntelCPU)
+    'here it captures the users numerical choice and stores it later to be written in the .csv file
+    PickIntelCPUForOtherPC = TextWindow.ReadNumber()
+    'this makes sure the user can't enter a number higher than the number of items in the array
+    If PickIntelCPUForOtherPC < 6 then
+      GPUMakerForOther()
+    Else 
+      TextWindow.Write("Incorrect Responce ")
+      PickIntelCPUForOther()
+      EndIf
+    EndSub
+    
+    'exact same process as above
+    Sub PickAMDCPUForOther
+      TextWindow.Clear()
+      TextWindow.WriteLine("Please choose from the following processers: (Enter the corresponding number)")
+      TextWindow.WriteLine(AMDCPU)
+      PickAMDCPUForOtherPC = TextWindow.ReadNumber()
+      If PickAMDCPUForOtherPC < 7 Then 
+        GPUMakerForOther()
+      Else  
+        TextWindow.Write("Incorrect Responce ")
+        PickAMDCPUForOther()
+        EndIf
+  EndSub
+ 
+'similar process here as the CPU's 
+  Sub GPUMakerForOther
+    TextWindow.Clear()
+    TextWindow.WriteLine("Please select a GPU manufacturer: Nvidia, AMD (Case sensitive)")
+    GPUMakerForOtherPC = TextWindow.Read()
+    If GPUMakerForOtherPC = "Nvidia" Then 
+      GPUCompanyForOther()
+    ElseIf GPUMakerForOtherPC = "AMD" then 
+      GPUCompanyForOther()
+    Else
+      TextWindow.Write("Incorrect Responce ")
+      GPUMakerForOther()     
+    EndIf
+  EndSub
+  
+  
+  'this is the final step before picking your Nvidia or AMD gpus. you pick the brand. Nvidia make the GPUs(Grahpics processing units) and the companys like Asus put it in an enclosure, put fans around it ect.
+sub GPUCompanyForOther
+  TextWindow.Clear()
+  TextWindow.WriteLine("Please select a GPU brand: MSI, Asus, WindForce, Gigabyte, EVGA (Case sensitive)")
+  GPUCompanyForOtherPC = TextWindow.Read()
+  If GPUCompanyForOtherPC = "MSI" Then  
+    ChooseGPUForOther()
+    elseIf GPUCompanyForOtherPC = "Asus" then 
+      ChooseGPUForOther()
+      elseIf GPUCompanyForOtherPC = "WindForce" then 
+        ChooseGPUForOther()
+        elseIf GPUCompanyForOtherPC = "Gigabyte" then 
+          ChooseGPUForOther()
+          elseIf GPUCompanyForOtherPC = "EVGA" then 
+            ChooseGPUForOther()
+             Else
+              TextWindow.Write("Incorrect Responce ")
+              GPUCompanyForOther()
+            EndIf
+          EndSub
+          
+          Sub ChooseGPUForOther
+          If GPUMakerForOtherPC = "Nvidia" then
+          PickNvidiaGPUForOther()
+          elseif GPUMakerForOtherPC = "AMD" then
+          PickAMD_GPUForOther()
+        endif
+      EndSub
+      'exact same process as the CPUs. calls the nvidia 'other' cards array. these cards are build of general processing. it could be general animation.
+      Sub PickNvidiaGPUForOther
+        TextWindow.Clear()
+        TextWindow.WriteLine("Please choose from the following graphics cards: (Enter the corresponding number)")
+        TextWindow.WriteLine(NvidiaCardsForOther)
+        PickedNvidiaGPUForOther = TextWindow.ReadNumber()
+        'same process of  logic for rejecting users responce.
+        If PickedNvidiaGPUForOther < 7 then
+          StatsForOther()
+          Else
+              TextWindow.Write("Incorrect Responce ")
+              PickNvidiaGPUForOther()
+              EndIf
+          EndSub
+     'exact same process as above
+     Sub PickAMD_GPUForOther
+       TextWindow.Clear()
+       TextWindow.WriteLine("Please choose from the following graphics cards: (Enter the corresponding number)")
+       TextWindow.WriteLine(AMDCardsForOther)
+       PickedAMD_GPUForOther = TextWindow.ReadNumber()
+       If PickedAMD_GPUForOther < 8 Then
+         StatsForOther()
+       Else
+         TextWindow.Write("Incorrect Responce ")
+         PickAMD_GPUForOther()
+         EndIf
+   EndSub  
+            'here it calls all the variables and writes them to one .csv file. handy to refer to at a later date. only downside is it states the number of the CPU and GPU you picked in the array, not its name... 
+             Sub StatsForOther
+               TextWindow.Clear()
+               CompleteStatsForOtherPC = "Your Budget: "+userBudget + "Your Name: "+userName + "Your Computer Purpose: "+ComputerPurpose + "Your CPU Company: " +CPUCompanyForOtherPC + "Your CPU: "+PickAMDCPUForOtherPC+ PickIntelCPUForOtherPC+ "Your Motherboard: "+MotherboardForOtherPC + "Your LGA Socket: "+LGAForOtherPC + "Your Ram(GB): "+RamForOtherPC + "Your GPU Company: "+GPUCompanyForOtherPC + "Your GPU Maker: "+GPUMakerForOtherPC + "Your Chosen GPU: "+PickedNvidiaGPUForOther + PickedAMD_GPUForOther
+           TextWindow.WriteLine("Below is your complete build list parts. You can also find the information as a .csv file here: C\My Builds\Other PC Build")
+           File.CreateDirectory("C:\My Builds\Other PC Build")
+           'writes it to a file here
+           StatsForOtherPC = File.AppendContents("C:\My Builds\Other PC Build\Other PC Build.csv", CompleteStatsForOtherPC)
+           TextWindow.Clear()
+           TextWindow.Write("Thankyou for using my program! :)")
+         EndSub         
+         '**********************************************************************************************************************************************************************************************************************************************************
+         'gaming build bit below. it is almost EXACTLY THE SAME as the one above, but with the variables changed. eg. CompleteStatsForOtherPC becomes CompleteStatsForGamingPC. only other difference is the gaming arrays for Nvidia and AMD cards.
+         'hope you don't mind the complete lack of comments for the second half, as there is no need because the first and second half follow the same logic...
+         '**********************************************************************************************************************************************************************************************************************************************************
+         
+         
+         
+         Sub GamingBuild
+  MotherboardForGaming()
+EndSub
+
+sub MotherboardForGaming
+TextWindow.Clear()
+TextWindow.WriteLine("Please choose motherboard brand: Intel, Gigabyte, Asus (Case sensitive)")
+MotherboardForGamingPC = TextWindow.Read()
+if MotherboardForGamingPC = "Intel" Then
+  LGAForGaming()
+  elseIf MotherboardForGamingPC = "Gigabyte" Then
+    LGAForGaming()
+    elseIf MotherboardForGamingPC = "Asus" Then
+      LGAForGaming()
+    Else
+      TextWindow.Write("Incorrect Responce ")
+      MotherboardForGaming()
+    EndIf 
+  EndSub
+  
+  Sub LGAForGaming 
+  TextWindow.Clear()
+  TextWindow.WriteLine("Please input LGA Socket: (1150, 1155 and 2011)")
+  LGAForGamingPC = TextWindow.ReadNumber()
+  If LGAForGamingPC = "1150" Then
+    RamForGaming()
+    elseIf LGAForGamingPC = "1155" Then
+    RamForGaming()
+    elseIf LGAForGamingPC = "2011" Then 
+        RamForGaming()
+         Else
+           TextWindow.Write("Incorrect Responce ")
+           LGAForGaming()
+      EndIf
+  EndSub
+  
+  sub RamForGaming
+  TextWindow.Clear()
+  TextWindow.Write("Please state how much RAM to install. (Max 64GB) ")
+  RamForGamingPC = TextWindow.ReadNumber()
+  If RamForGamingPC > 64 Then
+    TextWindow.Write("Maximum amount of RAM exceeded ")
+    RamForGaming()
+  Else
+    CPUCompanyForGaming()
+  EndIf
+EndSub
+
+Sub CPUCompanyForGaming
+  TextWindow.Clear()
+  TextWindow.WriteLine("Please select a CPU company: Intel, AMD (Case sensitive)")
+  CPUCompanyForGamingPC = TextWindow.Read()
+  if CPUCompanyForGamingPC = "Intel" Then 
+    PickIntelCPUForGaming()
+  ElseIf CPUCompanyForGamingPC = "AMD" then 
+    PickAMDCPUForGaming()
+  Else 
+    TextWindow.Write("Incorrect Responce ")
+    CPUCompanyForGaming()
+    EndIf
+  EndSub
+  
+  Sub PickIntelCPUForGaming
+    TextWindow.Clear()
+    TextWindow.WriteLine("Please choose from the following processers: (Enter the corresponding number)")
+    TextWindow.WriteLine(IntelCPU)
+    PickIntelCPUForGamingPC = TextWindow.ReadNumber()
+    If PickIntelCPUForGamingPC < 6 then
+      GPUMakerForGaming()
+    Else 
+      TextWindow.Write("Incorrect Responce ")
+      PickIntelCPUForGaming()
+      EndIf
+    EndSub
+    
+    Sub PickAMDCPUForGaming
+      TextWindow.Clear()
+      TextWindow.WriteLine("Please choose from the following processers: (Enter the corresponding number)")
+      TextWindow.WriteLine(AMDCPU)
+      PickAMDCPUForGamingPC = TextWindow.ReadNumber()
+      If PickAMDCPUForGamingPC < 7 Then 
+        GPUMakerForGaming()
+      Else  
+        TextWindow.Write("Incorrect Responce ")
+        PickAMDCPUForGaming()
+        EndIf
+  EndSub
+    
+  Sub GPUMakerForGaming
+    TextWindow.Clear()
+    TextWindow.WriteLine("Please select a GPU manufacturer: Nvidia, AMD (Case sensitive)")
+    GPUMakerForGamingPC = TextWindow.Read()
+    If GPUMakerForGamingPC = "Nvidia" Then 
+      GPUCompanyForGaming()
+    ElseIf GPUMakerForGamingPC = "AMD" then 
+      GPUCompanyForGaming()
+    Else
+      TextWindow.Write("Incorrect Responce ")
+      GPUMakerForGaming()     
+    EndIf
+  EndSub
+  
+sub GPUCompanyForGaming
+  TextWindow.Clear()
+  TextWindow.WriteLine("Please select a GPU brand: MSI, Asus, WindForce, Gigabyte, EVGA (Case sensitive)")
+  GPUCompanyForGamingPC = TextWindow.Read()
+  If GPUCompanyForGamingPC = "MSI" Then  
+    ChooseGPUForGaming()
+    elseIf GPUCompanyForGamingPC = "Asus" then 
+      ChooseGPUForGaming()
+      elseIf GPUCompanyForGamingPC = "WindForce" then 
+        ChooseGPUForGaming()
+        elseIf GPUCompanyForGamingPC = "Gigabyte" then 
+          ChooseGPUForGaming()
+          elseIf GPUCompanyForGamingPC = "EVGA" then 
+            ChooseGPUForGaming()
+             Else
+              TextWindow.Write("Incorrect Responce ")
+              GPUCompanyForGaming()
+            EndIf
+          EndSub
+          
+          Sub ChooseGPUForGaming
+          If GPUMakerForGamingPC = "Nvidia" then
+          PickNvidiaGPUForGaming()
+          elseif GPUMakerForGamingPC = "AMD" then
+          PickAMD_GPUForGaming()
+        endif
+      EndSub
+      
+      Sub PickNvidiaGPUForGaming
+        TextWindow.Clear()
+        TextWindow.WriteLine("Please choose from the following graphics cards: (Enter the corresponding number)")
+        TextWindow.WriteLine(NvidiaCardsForGaming)
+        PickedNvidiaGPUForGaming = TextWindow.ReadNumber()
+        If PickedNvidiaGPUForGaming < 7 then
+          StatsForGaming()
+          Else
+              TextWindow.Write("Incorrect Responce ")
+              PickNvidiaGPUForGaming()
+              EndIf
+          EndSub
+     
+     Sub PickAMD_GPUForGaming
+       TextWindow.Clear()
+       TextWindow.WriteLine("Please choose from the following graphics cards: (Enter the corresponding number)")
+       TextWindow.WriteLine(AMDCardsForGaming)
+       PickedAMD_GPUForGaming = TextWindow.ReadNumber()
+       If PickedAMD_GPUForGaming < 8 Then
+         StatsForGaming()
+       Else
+         TextWindow.Write("Incorrect Responce ")
+         PickAMD_GPUForGaming()
+         EndIf
+   EndSub  
+             
+             Sub StatsForGaming
+               TextWindow.Clear()
+               File.CreateDirectory("C:\My Builds\Gaming PC Build")
+               CompleteStatsForGamingPC = "Your Budget: "+ userBudget + "Your Name: "+ userName + "Your Computer Purpose: "+ ComputerPurpose + "Your CPU: "+PickAMDCPUForOtherPC+ PickIntelCPUForOtherPC+ "Your Motherboard: " +MotherboardForGamingPC+ "Your CPU Company: "+CPUCompanyForGamingPC + "Your LGA Socket: "+LGAForGamingPC + "Your Ram(GB): "+RamForGamingPC + "Your GPU Company: "+GPUCompanyForGamingPC + "Your GPU Maker: "+GPUMakerForGamingPC + "Your Chosen GPU: "+PickedNvidiaGPUForGaming + PickedAMD_GPUForGaming
+           StatsForGamingPC = File.AppendContents("C:\My Builds\Gaming PC Build\Gaming PC Build.csv", CompleteStatsForGamingPC)
+           TextWindow.Clear()
+           TextWindow.WriteLine("Below is your complete build list parts. You can also find the information as a .csv file here: C\My Builds\Gaming PC Build")
+           TextWindow.Write("Thankyou for using my program! :)")
+         EndSub         
+         'the end! Phew!
+'**********************************************************************************************************************************************************************************************************************************************
